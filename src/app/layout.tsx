@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
+import '@/styles/global.css';
 import { cn } from '@/lib/utils'
-import NavFix from '@/components/NavFix'
 import { MoviesProvider } from './context/MoviesContext'
 import dotenv from 'dotenv'
+import NavFix from '@/components/NavFix'
+import '../lib/fontawesome'; // Importação do fontawesome
 
 dotenv.config()
 
@@ -24,7 +25,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn(inter.className, 'dark min-h-screen')}>
         <MoviesProvider>
-          <NavFix />
           {children}
         </MoviesProvider>
       </body>

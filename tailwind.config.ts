@@ -19,10 +19,14 @@ const config = {
     },
     extend: {
       colors: {
+        color2:'#791978',
+        black: '#000E12',
+        rose:'#EB71B6',
+        textBlue: '#8EBFFF',
+        stars: '#0800FF',
         russianviolet: '#231942',
-        pink: '#005F73',
-        africanViolet: '#9F86C0',
-        lilac: '#BE95C4',
+        africanViolet: '#6921B0',
+        lilac: '#EFD4FE',
         pinkLavender: '#E0B1CB',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

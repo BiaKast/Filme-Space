@@ -4,60 +4,81 @@ import { SetStateAction, useState } from 'react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import Link from 'next/link'
-import fetchMovies2 from '@/app/api/fetchApiMovies'
 import { useMovies } from '@/app/context/MoviesContext'
+import { useRouter } from "next/navigation"
+import { HiUser } from 'react-icons/hi'
+import { generateYears } from '@/app/api/utils'
 
-const keyApi = `api_key=${process.env.NEXT_PUBLIC_KEYAPI}`
+const categories = [
+  { key: 'popularity', name: 'Populares' },
+  { key: 'vote_average', name: 'Favoritos da crítica' },
+  { key: 'upcoming', name: 'Por vir' }
+]
+
+const currentYear = new Date().getFullYear()
+const currentDecade = Math.floor(currentYear / 10) * 10
 
 export default function NavFix() {
-  const [value, setValue] = useState('')
-  const { setMovies } = useMovies()
-  const { setReload } = useMovies()
+  const {
+    setMainPage,
+    setSelectedCategory,
+    setSelectedGenre,
+    setSelectedDecade,
+    setYears,
+    page,
+    searchQuery,
+    setSearchQuery,
+    setReload,
+    setTotalPage,
+    setPage
+  } = useMovies()
 
-  const reloadPage = () => setReload((prev: boolean) => !prev)
-
-  const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
-    setValue(e.target.value)
-
-    if (e.target.value === '') {
-      reloadPage()
-    }
+  const reloadPage = () => {
+    setSearchQuery('')
+    setYears(generateYears(currentDecade))
+    setSelectedCategory({category: categories[0].key, name: categories[0].name})
+    setSelectedDecade(String(currentDecade))
+    setSelectedGenre('28')
+    setReload(true)
+    useRouter().refresh
   }
 
-  async function searchMovie(e: { preventDefault: () => void }) {
-    e.preventDefault()
-    try {
-      const data = await fetchMovies2(
-        `https://api.themoviedb.org/3/search/movie?query=${value}&${keyApi}&language=pt-br`,
-      )
-      console.log(data)
-
-      setMovies(data || [])
-    } catch (error) {
-      console.error('Erro ao buscar filmes:', error)
-    }
+  const handleSearchInputChange = (event: { target: { value: SetStateAction<string> } }) => {
+    setSelectedDecade(String(currentDecade))
+    setSearchQuery(event.target.value)
+    setSelectedCategory({category: categories[0].key, name: categories[0].name})
+    setSelectedGenre('28')
+    setPage(1)
   }
 
   return (
-    <div className="text-center center bg-russianviolet h-1/20 pl-10 pr-10">
-      <nav className="flex justify-between items-center">
-        <h2>
-          <Link href={'/'} onClick={reloadPage}>
-            MOVIES LIB
+    <div className="bg-russianviolet p-4 m-0 w-full fixed top-0 z-50">
+      <nav className="flex items-center justify-between gap-4">
+        <h2 className="text-2xl md:text-4xl font-bold">
+          <Link
+            href={'/'}
+            onClick={reloadPage}
+            className="hover:text-purple-400 text-textBlue"
+          >
+            FilmeSpace
           </Link>
         </h2>
-        <form className="flex gap-2 w-2/4 justify-end h-14 items-center">
+        {!window.location.pathname.includes('/details') && (
+        <form className="flex items-center w-full md:w-auto gap-2">
           <Input
             type="text"
-            value={value}
-            onChange={handleChange}
+            value={searchQuery}
+            onChange={handleSearchInputChange}
             placeholder="Qual filme procura ?"
-            className="w-2/4"
+            className="w-full md:w-96 text-center placeholder:text-textBlue placeholder:text-lg border-textBlue rounded-full py-2 px-4 shadow-md focus:ring-2 focus:ring-purple-500 transition"
           />
-          <Button type="submit" variant="secondary" onClick={searchMovie}>
-            Pesquisar
-          </Button>
         </form>
+        )}
+
+        <div className="flex items-center gap-2">
+          <h1 className="text-sm md:text-base text-textBlue">Minha conta</h1>
+          <HiUser className="text-xl text-textBlue" />
+        </div>
       </nav>
     </div>
   )

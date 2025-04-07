@@ -1,55 +1,150 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import Movies from './movies/page'
-import fetchMovies2 from './api/fetchApiMovies'
-import { Button } from '@/components/ui/button'
-import { ArrowBigLeft } from 'lucide-react'
-import { useMovies } from './context/MoviesContext'
+import { useEffect } from 'react';
+import Movies from './movies/page';
+import fetchMovies from './api/fetchApiMovies';
+import { Button } from '@/components/ui/button';
+import { ArrowBigLeft } from 'lucide-react';
+import { useMovies } from './context/MoviesContext';
+import Sidebar from '@/components/Sidebar';
+import NavFix from '@/components/NavFix';
+import Timeline from '@/components/Timeline';
 
-const API = process.env.NEXT_PUBLIC_APIURL
-const keyApi = `api_key=${process.env.NEXT_PUBLIC_KEYAPI}`
+const API = process.env.NEXT_PUBLIC_APIURL;
+const API_SEARCH = process.env.NEXT_PUBLIC_APIURL_SEARCH;
+const keyApi = `api_key=${process.env.NEXT_PUBLIC_KEYAPI}`;
 
 export default function Home() {
-  const { movies, setMovies, reload } = useMovies()
-  const [page, setPage] = useState(1)
+  const {
+    reload,
+    mainPage,
+    setMainPage,
+    selectedCategory,
+    setPage,
+    page,
+    selectedGenre,
+    searchQuery,
+    setTotalPage,
+    totalPage,
+    years,
+    setReload,
+    setOriginalArray,
+    selectYear,
+    originalArray,
+  } = useMovies();
+
+  // Filtra apenas os filmes futuros ou do dia atual
+  function filterUpcomingMovies(movies: any[]) {
+    const today = new Date(); // Data de hoje
+    const upcomingMovies = movies.filter((movie) => {
+      if (!movie.release_date) return false;
+      return new Date(movie.release_date) >= today;
+    });
+    console.log(selectYear, upcomingMovies.length);
+    
+    // Se não houver filmes futuros, avança para a próxima página
+    if (upcomingMovies.length === 0 && selectYear=== today.getFullYear()){
+      setPage((prevPage) => prevPage + 1);
+    }
+
+    return upcomingMovies;
+  }
 
   useEffect(() => {
-    async function loadMovies() {
+    const loadMovies = async () => {
       try {
-        const data = await fetchMovies2(
-          `${API}popular?&page=${page}&language=pt-br&${keyApi}`,
-        )
-        setMovies(data)
-        console.log('data', data)
+        let requests = [];
+
+        if (searchQuery) {
+          const url = `${API_SEARCH}?page=${page}&language=pt-br&${keyApi}&query=${searchQuery}`;
+          requests.push(fetchMovies(url));
+        } else if (selectYear && selectYear !== 0) {
+          const url = `${API}?page=${page}&language=pt-br&${keyApi}&sort_by=${selectedCategory.category}.desc&with_genres=${selectedGenre}&primary_release_year=${selectYear}`;
+          const response = await fetchMovies(url);
+          requests.push(response);
+        } else {
+          requests = years
+            .filter((year) => year)
+            .map((year) => {
+              const url = `${API}?page=${page}&language=pt-br&${keyApi}&sort_by=${selectedCategory.category}.desc&with_genres=${selectedGenre}&primary_release_year=${year}`;
+              return fetchMovies(url);
+            });
+        }
+
+        const results = await Promise.all(requests);
+
+        let totalPageCount = 0;
+        let allMovies = results
+          .filter((result) => result?.results)
+          .flatMap((result) => result?.results || []);
+
+        results.forEach((result) => {
+          totalPageCount += result?.total_pages || 0;
+        });
+
+        // Aplica o filtro apenas para filmes futuros se for categoria "upcoming"
+        if (selectedCategory.category === 'upcoming') {
+          allMovies = filterUpcomingMovies(allMovies);
+        }
+        
+        setTotalPage(totalPageCount);
+        setMainPage(allMovies);
+        setOriginalArray(allMovies);
+        setReload(false);
       } catch (error) {
-        console.error('Erro ao carregar filmes:', error)
+        console.error('Erro ao carregar filmes:', error);
       }
-    }
-    loadMovies()
-  }, [page, reload])
+    };
 
-  function nextPage() {
-    setPage((prevPage) => prevPage + 1)
-  }
+    loadMovies();
+  }, [page, reload, selectedCategory, selectedGenre, years, searchQuery, selectYear]);
 
-  function prevPage() {
-    setPage((prevPage) => Math.max(prevPage - 1, 1))
-  }
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const nextPage = () => {
+    setPage((prevPage) => prevPage + 1);
+    scrollToTop();
+  };
+
+  const prevPage = () => {
+    setPage((prevPage) => Math.max(prevPage - 1, 1));
+    scrollToTop();
+  };
 
   return (
-    <section className="space-y-6 pt-6 pb-8 md:pb-12 md:pt-10 lg-py-32">
-      <div className="container flex flex-col items-center gap-4 text-center max-w-[64rem]">
-        <Movies movies={movies} /> {/* Passa os filmes como prop */}
+    <section className="space-y-6 lg:py-15 ite">
+      <NavFix />
+      <div className="container mx-auto max-w-7xl px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          <div className="lg:col-span-3">
+            <Sidebar />
+          </div>
+
+          <div className="lg:col-span-9 space-y-6">
+            <h1 className="text-2xl font-semibold text-center mb-4">
+              {reload ? 'Carregando...' : selectedCategory.name}
+            </h1>
+            {!searchQuery && <Timeline />}
+            <Movies movies={mainPage} />
+          </div>
+        </div>
       </div>
-      <div className="flex justify-center gap-4">
-        <Button color="danger" onClick={prevPage}>
-          <ArrowBigLeft /> Anterior
-        </Button>
-        <Button color="primary" onClick={nextPage}>
-          Próxima <ArrowBigLeft className="rotate-180" />
-        </Button>
+
+      <div className="flex justify-center gap-6 mt-8">
+        {page > 1 && mainPage &&  (
+          <Button color="danger" onClick={prevPage} className="flex items-center">
+            <ArrowBigLeft className="mr-2" /> Anterior
+          </Button>
+        )}
+
+        {page < totalPage && mainPage.length > 0 && (
+          <Button color="primary" onClick={nextPage} className="flex items-center">
+            Próxima <ArrowBigLeft className="rotate-180 ml-2" />
+          </Button>
+        )}
       </div>
     </section>
-  )
+  );
 }

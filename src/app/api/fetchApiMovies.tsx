@@ -1,8 +1,8 @@
-const fetchMovies2 = async (link: string) => {
-  const resut = await fetch(link)
-  const data = await resut.json()
+const fetchMovies = async (link: string) => {
+  const result = await fetch(link)
+  const data = await result.json()
 
-  return data.results
+  return data
 }
 
-export default fetchMovies2
+export default fetchMovies
