@@ -8,6 +8,7 @@ import { useMovies } from '@/app/context/MoviesContext'
 import { useRouter } from "next/navigation"
 import { HiUser } from 'react-icons/hi'
 import { generateYears } from '@/app/api/utils'
+import AccountMenu from './AccountMenu'
 
 const categories = [
   { key: 'popularity', name: 'Populares' },
@@ -20,17 +21,15 @@ const currentDecade = Math.floor(currentYear / 10) * 10
 
 export default function NavFix() {
   const {
-    setMainPage,
     setSelectedCategory,
     setSelectedGenre,
     setSelectedDecade,
     setYears,
-    page,
     searchQuery,
     setSearchQuery,
     setReload,
     setTotalPage,
-    setPage
+    setPage,
   } = useMovies()
 
   const reloadPage = () => {
@@ -50,7 +49,7 @@ export default function NavFix() {
     setSelectedGenre('28')
     setPage(1)
   }
-
+  
   return (
     <div className="bg-russianviolet p-4 m-0 w-full fixed top-0 z-50">
       <nav className="flex items-center justify-between gap-4">
@@ -76,8 +75,9 @@ export default function NavFix() {
         )}
 
         <div className="flex items-center gap-2">
-          <h1 className="text-sm md:text-base text-textBlue">Minha conta</h1>
           <HiUser className="text-xl text-textBlue" />
+          {/* <h1 className="text-sm md:text-base text-textBlue">{user?.username}</h1> */}
+          <AccountMenu />
         </div>
       </nav>
     </div>

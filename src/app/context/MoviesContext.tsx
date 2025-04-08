@@ -31,6 +31,8 @@ type MoviesContextType = {
   setSelectYear: (select: number) => void,
   searchQuery: string,
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>,
+  setUser: React.Dispatch<React.SetStateAction<any>>,
+  user: any,
 }
 
 const MoviesContext = createContext<MoviesContextType | undefined>(undefined)
@@ -49,6 +51,7 @@ export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
   const [menuOpen, setMenuOpen] = useState(false);  // Estado para controlar a visibilidade do menu
   const [originalArray, setOriginalArray] = useState<Movie[]>([]);
   const [selectYear, setSelectYear] = useState<number>(0)
+  const [user, setUser] = useState<any>(null)
 
 
   return (
@@ -79,7 +82,9 @@ export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
         setOriginalArray,
         originalArray,
         selectYear,
-        setSelectYear
+        setSelectYear,
+        setUser,
+        user,
       }}
     >
       {children}

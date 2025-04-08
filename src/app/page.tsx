@@ -33,17 +33,15 @@ export default function Home() {
     originalArray,
   } = useMovies();
 
-  // Filtra apenas os filmes futuros ou do dia atual
+  // 🔍 Filtra os filmes que ainda vão estrear
   function filterUpcomingMovies(movies: any[]) {
-    const today = new Date(); // Data de hoje
+    const today = new Date();
     const upcomingMovies = movies.filter((movie) => {
       if (!movie.release_date) return false;
       return new Date(movie.release_date) >= today;
     });
-    console.log(selectYear, upcomingMovies.length);
-    
-    // Se não houver filmes futuros, avança para a próxima página
-    if (upcomingMovies.length === 0 && selectYear=== today.getFullYear()){
+
+    if (upcomingMovies.length === 0 && selectYear === today.getFullYear()) {
       setPage((prevPage) => prevPage + 1);
     }
 
@@ -76,17 +74,16 @@ export default function Home() {
         let totalPageCount = 0;
         let allMovies = results
           .filter((result) => result?.results)
-          .flatMap((result) => result?.results || []);
+          .flatMap((result) => result.results || []);
 
         results.forEach((result) => {
           totalPageCount += result?.total_pages || 0;
         });
 
-        // Aplica o filtro apenas para filmes futuros se for categoria "upcoming"
         if (selectedCategory.category === 'upcoming') {
           allMovies = filterUpcomingMovies(allMovies);
         }
-        
+
         setTotalPage(totalPageCount);
         setMainPage(allMovies);
         setOriginalArray(allMovies);
@@ -133,7 +130,7 @@ export default function Home() {
       </div>
 
       <div className="flex justify-center gap-6 mt-8">
-        {page > 1 && mainPage &&  (
+        {page > 1 && mainPage && (
           <Button color="danger" onClick={prevPage} className="flex items-center">
             <ArrowBigLeft className="mr-2" /> Anterior
           </Button>
