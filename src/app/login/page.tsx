@@ -53,7 +53,7 @@ export default function LoginPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ request_token: requestToken }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -77,13 +77,13 @@ export default function LoginPage() {
     try {
       if (isGuest) {
         const guestRes = await fetch(
-          `https://api.themoviedb.org/3/authentication/guest_session/new?${keyApi}`
+          `https://api.themoviedb.org/3/authentication/guest_session/new?${keyApi}`,
         );
         const guestData: GuestResponse = await guestRes.json();
         await saveSessionToken(guestData.guest_session_id);
       } else {
         const res = await fetch(
-          `https://api.themoviedb.org/3/authentication/token/new?${keyApi}`
+          `https://api.themoviedb.org/3/authentication/token/new?${keyApi}`,
         );
         const result: TokenResponse = await res.json();
 

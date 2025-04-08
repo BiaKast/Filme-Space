@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -27,15 +27,15 @@ export default function MovieCard({ movie }: { movie: Movie }) {
     const rating = vote_average / 2;
     return (
       <div className="flex items-center justify-center">
-        {[...Array(5)].map((_, i) => (
+        {[...Array(5)].map((_, i) =>
           rating >= i + 1 ? (
             <HiStar key={i} className="text-stars" />
           ) : rating >= i + 0.5 ? (
             <HiStar key={i} className="text-stars opacity-50" />
           ) : (
             <HiOutlineStar key={i} className="text-stars opacity-50" />
-          )
-        ))}
+          ),
+        )}
       </div>
     );
   }
@@ -47,11 +47,18 @@ export default function MovieCard({ movie }: { movie: Movie }) {
     >
       {!loaded && <SkeletonCard />}
 
-      <Link href={`/details?movie_id=${movie.id}`} className="absolute inset-0 flex flex-col">
+      <Link
+        href={`/details?movie_id=${movie.id}`}
+        className="absolute inset-0 flex flex-col"
+      >
         <CardContent className="p-4 flex flex-col justify-between h-full">
           <div className="w-full flex justify-center">
             <Image
-              src={movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : cineImage}
+              src={
+                movie.poster_path
+                  ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                  : cineImage
+              }
               alt={movie.title}
               width={300}
               height={200}
@@ -64,7 +71,10 @@ export default function MovieCard({ movie }: { movie: Movie }) {
 
           {loaded && (
             <div className="w-full text-center mt-3 md:mt-0 flex flex-col items-center">
-              <h3 className="text-lg font-bold text-africanViolet truncate w-full px-2" title={movie.title}>
+              <h3
+                className="text-lg font-bold text-africanViolet truncate w-full px-2"
+                title={movie.title}
+              >
                 {movie.title}
               </h3>
 
@@ -74,7 +84,8 @@ export default function MovieCard({ movie }: { movie: Movie }) {
 
               {formattedDate && (
                 <p className="text-sm text-africanViolet mt-1 flex items-center justify-center gap-1">
-                  <FaCalendar className="text-africanViolet" /> Lançamento: {formattedDate}
+                  <FaCalendar className="text-africanViolet" /> Lançamento:{" "}
+                  {formattedDate}
                 </p>
               )}
             </div>

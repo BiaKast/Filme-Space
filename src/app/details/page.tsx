@@ -1,29 +1,29 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import fetchMovies from '../api/fetchApiMovies'
-import { MovieDetails, MovieCredits } from '@/app/types/typeMovie'
-import { Credits } from '@/components/Credits'
-import Pictures from '@/components/Pictures'
-import { formatDateWithIntl } from '../api/utils'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
-import { faStar as emptyStar } from '@fortawesome/free-regular-svg-icons';
-import { MovieImages, MovieVideos } from '../types/typeMovieImages'
+import { useEffect, useState } from "react";
+import fetchMovies from "../api/fetchApiMovies";
+import { MovieDetails, MovieCredits } from "@/app/types/typeMovie";
+import { Credits } from "@/components/Credits";
+import Pictures from "@/components/Pictures";
+import { formatDateWithIntl } from "../api/utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar as emptyStar } from "@fortawesome/free-regular-svg-icons";
+import { MovieImages, MovieVideos } from "../types/typeMovieImages";
 import { useSearchParams } from "next/navigation";
-import ReactPlayer from 'react-player'
-import { Player } from '@/components/Player'
-import NavFix from '@/components/NavFix'
+import ReactPlayer from "react-player";
+import { Player } from "@/components/Player";
+import NavFix from "@/components/NavFix";
 
-const keyApi = `api_key=${process.env.NEXT_PUBLIC_KEYAPI}`
+const keyApi = `api_key=${process.env.NEXT_PUBLIC_KEYAPI}`;
 
 export default function Details() {
   const searchParams = useSearchParams();
   const movieId = searchParams.get("movie_id");
-  const [movie, setMovieDetails] = useState<MovieDetails>()
-  const [credits, setMovieCredits] = useState<MovieCredits>()
-  const [images, setMovieImages] = useState<MovieImages>()
-  const [videos, setMovieVideos] = useState<MovieVideos>()
+  const [movie, setMovieDetails] = useState<MovieDetails>();
+  const [credits, setMovieCredits] = useState<MovieCredits>();
+  const [images, setMovieImages] = useState<MovieImages>();
+  const [videos, setMovieVideos] = useState<MovieVideos>();
 
   useEffect(() => {
     async function loadMoviesDetails() {
@@ -45,7 +45,7 @@ export default function Details() {
         setMovieVideos(results5);
         setMovieImages(results6);
       } catch (error) {
-        console.error('Erro ao carregar filmes:', error);
+        console.error("Erro ao carregar filmes:", error);
       }
     }
 
@@ -55,7 +55,9 @@ export default function Details() {
   return (
     <div>
       <NavFix />
-      <div className="relative min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white overflow-hidden pt-20"> {/* <- Aqui adicionamos pt-20 */}
+      <div className="relative min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white overflow-hidden pt-20">
+        {" "}
+        {/* <- Aqui adicionamos pt-20 */}
         <div
           className="absolute inset-0 opacity-20"
           style={{
@@ -68,7 +70,6 @@ export default function Details() {
             filter: "blur(10px)",
           }}
         />
-
         <div className="relative z-10 flex flex-col items-center gap-8 p-8">
           {movie ? (
             <div className="glass w-full max-w-7xl p-6 rounded-lg shadow-xl">
@@ -84,29 +85,41 @@ export default function Details() {
                     {movie.original_title}
                   </h1>
                   {movie.tagline && (
-                    <p className="italic text-gray-300 text-lg">"{movie.tagline}"</p>
+                    <p className="italic text-gray-300 text-lg">
+                      "{movie.tagline}"
+                    </p>
                   )}
                   <p className="text-sm text-gray-300 leading-relaxed">
                     {movie.overview}
                   </p>
                   <div className="flex gap-6 flex-wrap">
                     <div>
-                      <span className="text-yellow-400 font-semibold">Rating: </span>
+                      <span className="text-yellow-400 font-semibold">
+                        Rating:{" "}
+                      </span>
                       <span className="text-gray-300">
                         {movie.vote_average.toFixed(1)} / 10
                       </span>
                     </div>
                     <div>
-                      <span className="text-blue-400 font-semibold">Popularity: </span>
+                      <span className="text-blue-400 font-semibold">
+                        Popularity:{" "}
+                      </span>
                       <span className="text-gray-300">{movie.popularity}</span>
                     </div>
                     <div>
-                      <span className="text-red-400 font-semibold">Release Date: </span>
-                      <span className="text-gray-300">{movie.release_date}</span>
+                      <span className="text-red-400 font-semibold">
+                        Release Date:{" "}
+                      </span>
+                      <span className="text-gray-300">
+                        {movie.release_date}
+                      </span>
                     </div>
                   </div>
                   <div className="mt-4">
-                    <h2 className="text-xl font-semibold mb-2 text-cyan-400">Genres</h2>
+                    <h2 className="text-xl font-semibold mb-2 text-cyan-400">
+                      Genres
+                    </h2>
                     <div className="flex flex-wrap gap-2">
                       {movie.genres.map(({ id, name }) => (
                         <span
@@ -131,4 +144,4 @@ export default function Details() {
       </div>
     </div>
   );
-};
+}

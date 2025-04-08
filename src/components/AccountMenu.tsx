@@ -10,14 +10,17 @@ export default function AccountMenu() {
   const router = useRouter();
 
   const handleLogout = () => {
-    document.cookie = "session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie =
+      "session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     router.push("/login");
   };
 
   useEffect(() => {
     const getSessionId = () => {
       const cookies = document.cookie.split("; ");
-      const sessionCookie = cookies.find((row) => row.startsWith("session_id="));
+      const sessionCookie = cookies.find((row) =>
+        row.startsWith("session_id="),
+      );
       return sessionCookie ? sessionCookie.split("=")[1] : null;
     };
 
@@ -25,13 +28,13 @@ export default function AccountMenu() {
       const sessionId = getSessionId();
       if (!sessionId) return;
 
-        console.log("Session ID:", sessionId); // Log the session ID for debugging
-        
+      console.log("Session ID:", sessionId); // Log the session ID for debugging
+
       try {
         const response = await fetch(`/api/account?session_id=${sessionId}`);
         const data = await response.json();
         console.log("Dados do usuário:", data); // Log the user data for debugging
-        
+
         if (data.username) {
           setUsername(data.username);
         }

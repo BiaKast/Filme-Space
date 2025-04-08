@@ -7,10 +7,13 @@ const SECRET_KEY = process.env.NEXT_PUBLIC_SECRET_KEY || "teste123";
 export async function GET() {
   try {
     const cookieStore = await cookies();
-    const sessionId = cookieStore.get('session_id')?.value;
+    const sessionId = cookieStore.get("session_id")?.value;
 
     if (!sessionId) {
-      return NextResponse.json({ error: "Login não encontrado" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Login não encontrado" },
+        { status: 401 },
+      );
     }
 
     const decoded = jwt.verify(sessionId, SECRET_KEY);

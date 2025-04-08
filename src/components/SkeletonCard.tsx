@@ -3,7 +3,10 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const SkeletonCard = () => {
   return (
-    <Card className="movie-card bg-gray-800 animate-pulse rounded-lg shadow-lg" style={{ minHeight: "400px" }}>
+    <Card
+      className="movie-card bg-gray-800 animate-pulse rounded-lg shadow-lg"
+      style={{ minHeight: "400px" }}
+    >
       <CardContent className="p-4 flex flex-col items-center">
         {/* Imagem */}
         <div className="w-[300px] h-[200px] bg-gray-700 rounded-lg mb-4"></div>

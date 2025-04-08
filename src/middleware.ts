@@ -4,7 +4,7 @@ export function middleware(req: NextRequest) {
   const token = req.cookies.get("session_id")?.value;
 
   // Se não houver token e o usuário não estiver na página de login, redireciona para login
-  if (!token && req.nextUrl.pathname !== "/login") {    
+  if (!token && req.nextUrl.pathname !== "/login") {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 

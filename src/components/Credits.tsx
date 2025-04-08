@@ -1,16 +1,16 @@
-import { MovieCredits } from '@/app/types/typeMovie';
-import { Card } from './ui/card';
-import { useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { MovieCredits } from "@/app/types/typeMovie";
+import { Card } from "./ui/card";
+import { useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export function Credits({ artists }: { artists: MovieCredits }) {
   const { cast } = artists;
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   let scrollInterval: NodeJS.Timeout | null = null;
 
-  const startScroll = (direction: 'left' | 'right') => {
+  const startScroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
-      const scrollAmount = direction === 'left' ? -20 : 20;
+      const scrollAmount = direction === "left" ? -20 : 20;
       scrollInterval = setInterval(() => {
         scrollContainerRef.current?.scrollBy({ left: scrollAmount });
       }, 16);
@@ -31,7 +31,7 @@ export function Credits({ artists }: { artists: MovieCredits }) {
       </p>
 
       <button
-        onMouseDown={() => startScroll('left')}
+        onMouseDown={() => startScroll("left")}
         onMouseUp={stopScroll}
         onMouseLeave={stopScroll}
         className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-cyan-600 hover:bg-cyan-700 text-white p-2 rounded-full shadow-lg z-10"
@@ -54,14 +54,19 @@ export function Credits({ artists }: { artists: MovieCredits }) {
                 src={
                   artist.profile_path
                     ? `https://image.tmdb.org/t/p/w500${artist.profile_path}`
-                    : '/placeholder-profile.png'
+                    : "/placeholder-profile.png"
                 }
-                alt={artist.name || 'Imagem do artista'}
+                alt={artist.name || "Imagem do artista"}
               />
             </div>
 
             <div className="p-4 text-center text-white">
-              <h1 className="font-bold text-lg truncate w-full" title={artist.name}>{artist.name}</h1>
+              <h1
+                className="font-bold text-lg truncate w-full"
+                title={artist.name}
+              >
+                {artist.name}
+              </h1>
               <p className="text-sm text-gray-400">
                 <strong>Departamento:</strong> {artist.known_for_department}
               </p>
@@ -77,7 +82,7 @@ export function Credits({ artists }: { artists: MovieCredits }) {
       </div>
 
       <button
-        onMouseDown={() => startScroll('right')}
+        onMouseDown={() => startScroll("right")}
         onMouseUp={stopScroll}
         onMouseLeave={stopScroll}
         className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-cyan-600 hover:bg-cyan-700 text-white p-2 rounded-full shadow-lg z-10"

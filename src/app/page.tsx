@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import Movies from './movies/page';
-import fetchMovies from './api/fetchApiMovies';
-import { Button } from '@/components/ui/button';
-import { ArrowBigLeft } from 'lucide-react';
-import { useMovies } from './context/MoviesContext';
-import Sidebar from '@/components/Sidebar';
-import NavFix from '@/components/NavFix';
-import Timeline from '@/components/Timeline';
+import { useEffect } from "react";
+import Movies from "./movies/page";
+import fetchMovies from "./api/fetchApiMovies";
+import { Button } from "@/components/ui/button";
+import { ArrowBigLeft } from "lucide-react";
+import { useMovies } from "./context/MoviesContext";
+import Sidebar from "@/components/Sidebar";
+import NavFix from "@/components/NavFix";
+import Timeline from "@/components/Timeline";
 
 const API = process.env.NEXT_PUBLIC_APIURL;
 const API_SEARCH = process.env.NEXT_PUBLIC_APIURL_SEARCH;
@@ -80,7 +80,7 @@ export default function Home() {
           totalPageCount += result?.total_pages || 0;
         });
 
-        if (selectedCategory.category === 'upcoming') {
+        if (selectedCategory.category === "upcoming") {
           allMovies = filterUpcomingMovies(allMovies);
         }
 
@@ -89,15 +89,23 @@ export default function Home() {
         setOriginalArray(allMovies);
         setReload(false);
       } catch (error) {
-        console.error('Erro ao carregar filmes:', error);
+        console.error("Erro ao carregar filmes:", error);
       }
     };
 
     loadMovies();
-  }, [page, reload, selectedCategory, selectedGenre, years, searchQuery, selectYear]);
+  }, [
+    page,
+    reload,
+    selectedCategory,
+    selectedGenre,
+    years,
+    searchQuery,
+    selectYear,
+  ]);
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const nextPage = () => {
@@ -121,7 +129,7 @@ export default function Home() {
 
           <div className="lg:col-span-9 space-y-6">
             <h1 className="text-2xl font-semibold text-center mb-4">
-              {reload ? 'Carregando...' : selectedCategory.name}
+              {reload ? "Carregando..." : selectedCategory.name}
             </h1>
             {!searchQuery && <Timeline />}
             <Movies movies={mainPage} />
@@ -131,13 +139,21 @@ export default function Home() {
 
       <div className="flex justify-center gap-6 mt-8">
         {page > 1 && mainPage && (
-          <Button color="danger" onClick={prevPage} className="flex items-center">
+          <Button
+            color="danger"
+            onClick={prevPage}
+            className="flex items-center"
+          >
             <ArrowBigLeft className="mr-2" /> Anterior
           </Button>
         )}
 
         {page < totalPage && mainPage.length > 0 && (
-          <Button color="primary" onClick={nextPage} className="flex items-center">
+          <Button
+            color="primary"
+            onClick={nextPage}
+            className="flex items-center"
+          >
             Próxima <ArrowBigLeft className="rotate-180 ml-2" />
           </Button>
         )}
