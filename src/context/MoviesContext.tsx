@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState } from "react";
 import { Genre, Movie } from "@/types/typeMovie";
-import { generateDecades, generateYears } from "../api/utils";
+import { generateDecades, generateYears } from "../app/api/utils";
 
 type MoviesContextType = {
   reload: boolean;

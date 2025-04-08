@@ -89,8 +89,10 @@ export default function LoginPage() {
 
         if (!result.request_token)
           throw new Error("Erro ao gerar token de autenticação.");
-
-        window.location.href = `https://www.themoviedb.org/authenticate/${result.request_token}?redirect_to=http://localhost:3001/login`;
+        
+        if (typeof window !== 'undefined') {
+          window.location.href = `https://www.themoviedb.org/authenticate/${result.request_token}?redirect_to=http://localhost:3001/login`;
+        }
       }
     } catch (error) {
       console.error("Erro ao autenticar:", error);

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useMovies } from "../app/context/MoviesContext";
+import { useMovies } from "../context/MoviesContext";
 
 const Timeline = () => {
   const { years, setReload, selectYear, setSelectYear, setPage } = useMovies();

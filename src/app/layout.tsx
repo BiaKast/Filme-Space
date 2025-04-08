@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/styles/global.css";
 import { cn } from "@/lib/utils";
-import { MoviesProvider } from "./context/MoviesContext";
+import { MoviesProvider } from "../context/MoviesContext";
 import dotenv from "dotenv";
 import NavFix from "@/components/NavFix";
 import "../lib/fontawesome"; // Importação do fontawesome

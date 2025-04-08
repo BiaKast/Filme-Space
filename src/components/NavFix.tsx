@@ -1,13 +1,13 @@
 "use client";
 
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import Link from "next/link";
 import { useMovies } from "../context/MoviesContext";
 import { useRouter } from "next/navigation";
 import { HiUser } from "react-icons/hi";
-import { generateYears } from "@/api/utils";
+import { generateYears } from "@/app/api/utils";
 import AccountMenu from "./AccountMenu";
 
 const categories = [
@@ -32,6 +32,15 @@ export default function NavFix() {
     setPage,
   } = useMovies();
 
+  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+  const [isDetailsPage, setIsDetailsPage] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setIsDetailsPage(window.location.pathname.includes("/details"));
+  }, []);
+
   const reloadPage = () => {
     setSearchQuery("");
     setYears(generateYears(currentDecade));
@@ -42,7 +51,7 @@ export default function NavFix() {
     setSelectedDecade(String(currentDecade));
     setSelectedGenre("28");
     setReload(true);
-    useRouter().refresh;
+    router.refresh();
   };
 
   const handleSearchInputChange = (event: {
@@ -70,7 +79,8 @@ export default function NavFix() {
             FilmeSpace
           </Link>
         </h2>
-        {!window.location.pathname.includes("/details") && (
+
+        {mounted && !isDetailsPage && (
           <form className="flex items-center w-full md:w-auto gap-2">
             <Input
               type="text"
@@ -84,7 +94,6 @@ export default function NavFix() {
 
         <div className="flex items-center gap-2">
           <HiUser className="text-xl text-textBlue" />
-          {/* <h1 className="text-sm md:text-base text-textBlue">{user?.username}</h1> */}
           <AccountMenu />
         </div>
       </nav>

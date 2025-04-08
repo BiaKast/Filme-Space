@@ -1,6 +1,6 @@
 "use client";
 
-import { useMovies } from "@/app/context/MoviesContext";
+import { useMovies } from "../context/MoviesContext";
 
 export default function ButtonSidebar() {
   const { menuOpen, setMenuOpen } = useMovies();

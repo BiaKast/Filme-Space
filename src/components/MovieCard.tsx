@@ -8,7 +8,7 @@ import { FaCalendar } from "react-icons/fa";
 import SkeletonCard from "@/components/SkeletonCard";
 
 import { HiStar, HiOutlineStar } from "react-icons/hi";
-import { formatDateWithIntl } from "@/api/utils";
+import { formatDateWithIntl } from "@/app/api/utils";
 import { Movie } from "@/types/typeMovie";
 import cineImage from "@/app/images/_fb95478c-3ad0-4384-b787-d7382c6af57c.jpg";
 

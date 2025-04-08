@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import Movies from "./movies/page";
-import fetchMovies from "../api/fetchApiMovies";
+import Movies from "../components/movies/page";
+import fetchMovies from "./api/fetchApiMovies";
 import { Button } from "@/components/ui/button";
 import { ArrowBigLeft } from "lucide-react";
 import { useMovies } from "../context/MoviesContext";
@@ -105,7 +105,9 @@ export default function Home() {
   ]);
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const nextPage = () => {
