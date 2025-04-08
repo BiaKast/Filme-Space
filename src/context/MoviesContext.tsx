@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState } from "react";
-import { Genre, Movie } from "@/app/types/typeMovie";
+import { Genre, Movie } from "@/types/typeMovie";
 import { generateDecades, generateYears } from "../api/utils";
 
 type MoviesContextType = {

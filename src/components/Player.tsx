@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MovieVideos } from "@/app/types/typeMovieImages";
+import { MovieVideos } from "@/types/typeMovieImages";
 import ReactPlayer from "react-player";
 import { Dialog } from "@headlessui/react";
 import { Card, CardContent } from "@/components/ui/card";

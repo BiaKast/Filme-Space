@@ -1,4 +1,4 @@
-import { MovieImages } from "@/app/types/typeMovieImages";
+import { MovieImages } from "@/types/typeMovieImages";
 import { useEffect, useState } from "react";
 import SkeletonCard from "@/components/SkeletonCard";
 

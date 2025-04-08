@@ -1,4 +1,4 @@
-import { MovieCredits } from "@/app/types/typeMovie";
+import { MovieCredits } from "@/types/typeMovie";
 import { Card } from "./ui/card";
 import { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";

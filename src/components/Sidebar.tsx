@@ -1,7 +1,7 @@
 "use client";
 
-import fetchMovies from "@/app/api/fetchApiMovies";
-import { generateDecades, generateYears } from "@/app/api/utils";
+import fetchMovies from "@/api/fetchApiMovies";
+import { generateDecades, generateYears } from "@/api/utils";
 import { useMovies } from "@/app/context/MoviesContext";
 import { useEffect, useRef, useState } from "react";
 import { HiFilm, HiCog } from "react-icons/hi";

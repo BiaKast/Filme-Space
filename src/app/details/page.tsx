@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import fetchMovies from "../api/fetchApiMovies";
-import { MovieDetails, MovieCredits } from "@/app/types/typeMovie";
+import fetchMovies from "../../api/fetchApiMovies";
+import { MovieDetails, MovieCredits } from "@/types/typeMovie";
 import { Credits } from "@/components/Credits";
 import Pictures from "@/components/Pictures";
-import { formatDateWithIntl } from "../api/utils";
+import { formatDateWithIntl } from "../../api/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as emptyStar } from "@fortawesome/free-regular-svg-icons";
-import { MovieImages, MovieVideos } from "../types/typeMovieImages";
+import { MovieImages, MovieVideos } from "../../types/typeMovieImages";
 import { useSearchParams } from "next/navigation";
 import ReactPlayer from "react-player";
 import { Player } from "@/components/Player";

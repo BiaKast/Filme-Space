@@ -1,4 +1,4 @@
-import { Movie } from "@/app/types/typeMovie";
+import { Movie } from "@/types/typeMovie";
 import MovieCard from "@/components/MovieCard";
 import { use, useEffect, useState } from "react";
 

@@ -4,10 +4,10 @@ import { SetStateAction, useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import Link from "next/link";
-import { useMovies } from "@/app/context/MoviesContext";
+import { useMovies } from "../context/MoviesContext";
 import { useRouter } from "next/navigation";
 import { HiUser } from "react-icons/hi";
-import { generateYears } from "@/app/api/utils";
+import { generateYears } from "@/api/utils";
 import AccountMenu from "./AccountMenu";
 
 const categories = [
