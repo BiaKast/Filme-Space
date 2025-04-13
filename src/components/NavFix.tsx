@@ -1,7 +1,6 @@
 "use client";
 
 import { SetStateAction, useEffect, useState } from "react";
-import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import Link from "next/link";
 import { useMovies } from "../context/MoviesContext";
@@ -9,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { HiUser } from "react-icons/hi";
 import { generateYears } from "@/app/api/utils";
 import AccountMenu from "./AccountMenu";
+import { set } from "react-hook-form";
 
 const categories = [
   { key: "popularity", name: "Populares" },
@@ -28,8 +28,10 @@ export default function NavFix() {
     searchQuery,
     setSearchQuery,
     setReload,
-    setTotalPage,
     setPage,
+    setSelectYear,
+    setSortNameState,
+    setSortDateState,
   } = useMovies();
 
   const router = useRouter();
@@ -42,15 +44,18 @@ export default function NavFix() {
   }, []);
 
   const reloadPage = () => {
+    const defaultCategory = { category: categories[0].key, name: categories[0].name };
+    
+    setSortNameState(1);
+    setSortDateState(1);
     setSearchQuery("");
     setYears(generateYears(currentDecade));
-    setSelectedCategory({
-      category: categories[0].key,
-      name: categories[0].name,
-    });
+    setSelectedCategory(defaultCategory);
     setSelectedDecade(String(currentDecade));
     setSelectedGenre("28");
+    setPage(1);
     setReload(true);
+    setSelectYear(0);
     router.refresh();
   };
 
@@ -93,7 +98,6 @@ export default function NavFix() {
         )}
 
         <div className="flex items-center gap-2">
-          <HiUser className="text-xl text-textBlue" />
           <AccountMenu />
         </div>
       </nav>

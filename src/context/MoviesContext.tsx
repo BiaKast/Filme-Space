@@ -33,6 +33,10 @@ type MoviesContextType = {
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
   setUser: React.Dispatch<React.SetStateAction<any>>;
   user: any;
+  setSortNameState: React.Dispatch<React.SetStateAction<number>>;
+  setSortDateState: React.Dispatch<React.SetStateAction<number>>;
+  sortNameState: number;
+  sortDateState: number;
 };
 
 const MoviesContext = createContext<MoviesContextType | undefined>(undefined);
@@ -59,6 +63,8 @@ export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
   const [originalArray, setOriginalArray] = useState<Movie[]>([]);
   const [selectYear, setSelectYear] = useState<number>(0);
   const [user, setUser] = useState<any>(null);
+  const [sortNameState, setSortNameState] = useState(1);
+  const [sortDateState, setSortDateState] = useState(1);
 
   return (
     <MoviesContext.Provider
@@ -91,6 +97,10 @@ export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
         setSelectYear,
         setUser,
         user,
+        setSortNameState,
+        setSortDateState,
+        sortNameState,
+        sortDateState,
       }}
     >
       {children}

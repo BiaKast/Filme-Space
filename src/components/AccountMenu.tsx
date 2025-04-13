@@ -35,8 +35,17 @@ export default function AccountMenu() {
         const data = await response.json();
         console.log("Dados do usuário:", data); // Log the user data for debugging
 
-        if (data.username) {
+        if (!response.ok || data.status === 401 || data.error === "Token expirado ou inválido!" || data.error === "Erro na API do TMDB") {
+          document.cookie = "session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          
+          window.location.href = "/login";
+          return;
+        }
+
+        if (data.username && data.id) {
           setUsername(data.username);
+        } else {
+          setUsername('Convidado');
         }
       } catch (error) {
         console.error("Erro ao buscar usuário:", error);

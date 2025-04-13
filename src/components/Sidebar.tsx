@@ -8,6 +8,7 @@ import { HiFilm, HiCog } from "react-icons/hi";
 import { HiOutlineSortDescending } from "react-icons/hi";
 import { Label } from "@radix-ui/react-label";
 import ButtonSidebar from "./ButtonSidebar";
+import { set } from "react-hook-form";
 
 const selectStyles =
   "px-3 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 hover:bg-gray-700 shadow-lg transition-all";
@@ -23,8 +24,7 @@ export default function Sidebar() {
     { key: "upcoming", name: "Por vir" },
   ];
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const [sortNameState, setSortNameState] = useState(1);
-  const [sortDateState, setSortDateState] = useState(1);
+
 
   const {
     setGenresId,
@@ -50,6 +50,10 @@ export default function Sidebar() {
     years,
     searchQuery,
     setOriginalArray,
+    setSortNameState,
+    setSortDateState,
+    sortNameState,
+    sortDateState,
   } = useMovies();
 
   useEffect(() => {
@@ -166,9 +170,11 @@ export default function Sidebar() {
     if (category === "upcoming") {
       setSelectedDecade(String(currentDecade));
       setYears(generateYears(currentDecade + 10, category));
+      setSelectYear(0);
     } else {
       setSelectedDecade(String(currentYear));
       setYears(generateYears(currentDecade));
+      setSelectYear(0);
     }
   };
 
