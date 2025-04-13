@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { log } from "console";
 
 export default function AccountMenu() {
   const [open, setOpen] = useState(false);
@@ -34,10 +35,11 @@ export default function AccountMenu() {
         const response = await fetch(`/api/account?session_id=${sessionId}`);
         const data = await response.json();
         console.log("Dados do usuário:", data); // Log the user data for debugging
+        console.log(response);
+        
 
-        if (!response.ok || data.status === 401 || data.error === "Token expirado ou inválido!" || data.error === "Erro na API do TMDB") {
-          document.cookie = "session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-          
+        if (!response.ok || data.status === 401|| data.error === "Token expirado ou inválido!") {
+          document.cookie = "session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";          
           window.location.href = "/login";
           return;
         }

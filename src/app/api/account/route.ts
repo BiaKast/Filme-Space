@@ -25,13 +25,6 @@ export async function GET(req: Request) {
 
     const decoded = jwt.verify(sessionId, SECRET_KEY) as DecodedToken;
 
-    if (!decoded.session_id) {
-      return new Response(JSON.stringify({ error: "Invalid token payload" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
     const tmdbResponse = await fetch(
       `https://api.themoviedb.org/3/account?${keyApi}&session_id=${decoded.session_id}`,
       {
@@ -44,8 +37,8 @@ export async function GET(req: Request) {
 
     const data = await tmdbResponse.json();
 
-    if (!tmdbResponse.ok) {
-      return new Response(JSON.stringify({ error: "Erro na API do TMDB", data }), {
+    if (!tmdbResponse.ok && !decoded.session_id) {
+      return new Response(JSON.stringify({ error: "Erro na API do TMDB", data: decoded.session_id}), {
         status: tmdbResponse.status,
         headers: { "Content-Type": "application/json" },
       });
