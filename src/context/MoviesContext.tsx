@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState } from "react";
 import { Genre, Movie } from "@/types/typeMovie";
+import { UserAccount } from "@/types/typeUser";
 import { generateDecades, generateYears } from "../app/api/utils";
 
 type MoviesContextType = {
@@ -37,6 +38,8 @@ type MoviesContextType = {
   setSortDateState: React.Dispatch<React.SetStateAction<number>>;
   sortNameState: number;
   sortDateState: number;
+  userAccount: UserAccount | null;
+  setUserAccount: (user: UserAccount) => void;
 };
 
 const MoviesContext = createContext<MoviesContextType | undefined>(undefined);
@@ -65,6 +68,7 @@ export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>(null);
   const [sortNameState, setSortNameState] = useState(1);
   const [sortDateState, setSortDateState] = useState(1);
+  const [userAccount, setUserAccount] = useState<UserAccount | null>(null);
 
   return (
     <MoviesContext.Provider
@@ -101,6 +105,8 @@ export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
         setSortDateState,
         sortNameState,
         sortDateState,
+        userAccount,
+        setUserAccount,
       }}
     >
       {children}

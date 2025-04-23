@@ -40,7 +40,10 @@ export default function NavFix() {
 
   useEffect(() => {
     setMounted(true);
-    setIsDetailsPage(window.location.pathname.includes("/details"));
+    if (window.location.pathname.includes("/details") || window.location.pathname.includes("/favorites")) {
+      setIsDetailsPage(true);
+      
+    }
   }, []);
 
   const reloadPage = () => {
@@ -74,7 +77,7 @@ export default function NavFix() {
 
   return (
     <div className="bg-russianviolet p-4 m-0 w-full fixed top-0 z-50">
-      <nav className="flex items-center justify-between gap-4">
+      <nav className="flex flex-col md:flex-row items-center justify-between gap-4">
         <h2 className="text-2xl md:text-4xl font-bold">
           <Link
             href={"/"}
@@ -84,23 +87,24 @@ export default function NavFix() {
             FilmeSpace
           </Link>
         </h2>
-
+  
         {mounted && !isDetailsPage && (
-          <form className="flex items-center w-full md:w-auto gap-2">
+          <form className="w-full md:w-auto flex justify-center md:justify-start">
             <Input
               type="text"
               value={searchQuery}
               onChange={handleSearchInputChange}
-              placeholder="Qual filme procura ?"
-              className="w-full md:w-96 text-center placeholder:text-textBlue placeholder:text-lg border-textBlue rounded-full py-2 px-4 shadow-md focus:ring-2 focus:ring-purple-500 transition"
+              placeholder="Qual filme procura?"
+              className="w-full md:w-96 text-textBlue placeholder:text-textBlue/70 text-base md:text-lg rounded-full px-6 py-2 bg-russianviolet border border-textBlue/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-300 shadow-md"
             />
           </form>
         )}
-
+  
         <div className="flex items-center gap-2">
           <AccountMenu />
         </div>
       </nav>
     </div>
   );
+  
 }

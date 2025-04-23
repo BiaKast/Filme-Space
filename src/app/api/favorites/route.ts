@@ -13,7 +13,8 @@ interface DecodedToken {
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const sessionId = searchParams.get("session_id");
+    const sessionId = searchParams.get("sessionId");
+    const userAccount = searchParams.get("userAccount");
 
     if (!sessionId) {
       return new Response(JSON.stringify({ error: "Missing session ID" }), {
@@ -21,11 +22,12 @@ export async function GET(req: Request) {
         headers: { "Content-Type": "application/json" },
       });
     }
-
+    
     const decoded = jwt.verify(sessionId, SECRET_KEY) as DecodedToken;
-
+    
+    console.log("Decoded token:", decoded.id);
     const tmdbResponse = await fetch(
-      `https://api.themoviedb.org/3/account?${keyApi}&session_id=${decoded.session_id}`,
+      `https://api.themoviedb.org/3/account/${userAccount}/favorite/movies?${keyApi}&session_id=${decoded.session_id}`,
       {
         headers: {
           Authorization: `Bearer ${accessTokenTmdb}`,

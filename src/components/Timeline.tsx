@@ -38,20 +38,23 @@ const Timeline = () => {
   return (
     <div className="timeline flex flex-col items-center p-6">
       <h2 className="text-3xl font-bold mb-6 text-gray-200">Linha do Tempo</h2>
-      <div className="relative flex items-center">
-        <div className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 shadow-lg"></div>
-        <div className="flex space-x-8 px-6 relative items-center">
-          <div
-            onClick={() => handleYearClick(0)}
-            className={`cursor-pointer py-2 px-5 rounded-full text-sm font-semibold transition-all transform hover:scale-110 shadow-md ${
-              selectYear === 0
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 text-gray-800 hover:bg-gray-400"
-            }`}
-          >
-            Todos
+      <div className="timeline-wrapper w-full overflow-x-auto scroll-smooth styled-scrollbar">
+
+        <div className="timeline flex items-center justify-start space-x-8 px-6 min-w-max relative">
+          <div className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 shadow-lg z-0"></div>
+          <div className="flex space-x-8 px-6 py-4 relative items-center min-w-max z-10">
+            <div
+              onClick={() => handleYearClick(0)}
+              className={`cursor-pointer py-2 px-5 rounded-full text-sm font-semibold transition-all transform hover:scale-110 shadow-md ${
+                selectYear === 0
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 text-gray-800 hover:bg-gray-400"
+              }`}
+            >
+              Todos
+            </div>
+            {renderYears()}
           </div>
-          {renderYears()}
         </div>
       </div>
     </div>
