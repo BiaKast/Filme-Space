@@ -121,7 +121,7 @@ export default function Home() {
   };
 
   return (
-    <section className="space-y-6 lg:py-15 ite">
+    <section className="space-y-6 lg:py-15 py-10 bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white overflow-hidden pt-28 lg:pt-20">
       <NavFix />
       <div className="container mx-auto max-w-7xl px-4">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
@@ -130,9 +130,6 @@ export default function Home() {
           </div>
 
           <div className="lg:col-span-9 space-y-6">
-            <h1 className="text-2xl font-semibold text-center mb-4">
-              {reload ? "Carregando..." : selectedCategory.name}
-            </h1>
             {!searchQuery && <Timeline />}
             <Movies movies={mainPage} />
           </div>

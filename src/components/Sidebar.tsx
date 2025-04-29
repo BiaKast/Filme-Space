@@ -172,8 +172,6 @@ export default function Sidebar() {
       setYears(generateYears(currentDecade + 10, category));
       setSelectYear(0);
     } else {
-      setSelectedDecade(String(currentYear));
-      setYears(generateYears(currentDecade));
       setSelectYear(0);
     }
   };

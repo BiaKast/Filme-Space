@@ -78,16 +78,23 @@ export default function NavFix() {
   return (
     <div className="bg-russianviolet p-4 m-0 w-full fixed top-0 z-50">
       <nav className="flex flex-col md:flex-row items-center justify-between gap-4">
-        <h2 className="text-2xl md:text-4xl font-bold">
-          <Link
-            href={"/"}
-            onClick={reloadPage}
-            className="hover:text-purple-400 text-textBlue"
-          >
-            FilmeSpace
-          </Link>
-        </h2>
-  
+        <div className="flex items-center justify-between w-full md:w-auto">
+          <h2 className="text-2xl md:text-4xl font-bold">
+            <Link
+              href={"/"}
+              onClick={reloadPage}
+              className="hover:text-purple-400 text-textBlue"
+            >
+              FilmeSpace
+            </Link>
+          </h2>
+          {/* AccountMenu aparece ao lado do título em telas pequenas */}
+          <div className="md:hidden">
+            <AccountMenu />
+          </div>
+        </div>
+
+        {/* Input visível se montado e não estiver na página de detalhes */}
         {mounted && !isDetailsPage && (
           <form className="w-full md:w-auto flex justify-center md:justify-start">
             <Input
@@ -99,8 +106,9 @@ export default function NavFix() {
             />
           </form>
         )}
-  
-        <div className="flex items-center gap-2">
+
+        {/* AccountMenu normal em telas maiores */}
+        <div className="hidden md:flex items-center gap-2">
           <AccountMenu />
         </div>
       </nav>
