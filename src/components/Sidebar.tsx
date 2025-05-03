@@ -120,13 +120,17 @@ export default function Sidebar() {
             new Date(a.release_date).getTime(),
       );
     }
-    console.log("sortedMovies", sortedMovies);
+    // console.log("sortedMovies", sortedMovies, selectedCategory.category);
     const today = new Date();
-    const onlyCurrentMovies = sortedMovies.filter((movie) => {
-      if (!movie.release_date) return false;
-      return new Date(movie.release_date) <= today;
-    });
-    setMainPage(onlyCurrentMovies);
+    let onlyCurrentMovies = sortedMovies
+    if (selectedCategory.category !== "upcoming") {
+      onlyCurrentMovies = sortedMovies.filter((movie) => {
+        if (!movie.release_date) return false;
+        return new Date(movie.release_date) <= today;
+      });
+      
+    }
+    setMainPage(onlyCurrentMovies || []);
   };
 
   useEffect(() => {
