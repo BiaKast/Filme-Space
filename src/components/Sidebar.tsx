@@ -106,8 +106,8 @@ export default function Sidebar() {
     if (nameSort !== "Original") {
       sortedMovies = sortedMovies.sort((a, b) =>
         nameSort === "A-Z"
-          ? a.original_title.localeCompare(b.original_title)
-          : b.original_title.localeCompare(a.original_title),
+          ? a.title.localeCompare(b.title)
+          : b.title.localeCompare(a.title),
       );
     }
 
@@ -120,8 +120,13 @@ export default function Sidebar() {
             new Date(a.release_date).getTime(),
       );
     }
-
-    setMainPage(sortedMovies);
+    console.log("sortedMovies", sortedMovies);
+    const today = new Date();
+    const onlyCurrentMovies = sortedMovies.filter((movie) => {
+      if (!movie.release_date) return false;
+      return new Date(movie.release_date) <= today;
+    });
+    setMainPage(onlyCurrentMovies);
   };
 
   useEffect(() => {
